@@ -1,8 +1,8 @@
-S# VTS (DSH with ViT-cls Backbone - ICME 2022)
+# VTS (DSH with ViT-cls Backbone - ICME 2022)
 # paper [Vision Transformer Hashing for Image Retrieval, ICME 2022](https://arxiv.org/pdf/2109.12564.pdf)
 # DSH basecode considered from https://github.com/swuxyj/DeepHash-pytorch
 
-from .utils.tools import get_data, compute_result, CalcTopMap, CalcHammingDist, get_database, pr_curve
+from utils.tools import *
 
 import torch
 import torch.optim as optim
@@ -374,16 +374,16 @@ if __name__ == "__main__":
     argumentList = sys.argv[1:]
     try:
         options = "q:"
-        long_options = ["query_image = "]
+        long_options = ["query_image="]
         config = get_config()
         query_image = ""
-        opts = getopt.getopt(argumentList, options, long_options)
+        opts, args = getopt.getopt(argumentList, options, long_options)
         for opt, arg in opts: 
             if opt in ['-q', '--query_image']: 
                 query_image = arg
         dataset_loader, index = get_database(config)
         list_image_retrieved = retrieve_image(config,query_image= query_image, bit=config["bit_list"][0], top_k = 10)
-        sys.stdout.write(list_image_retrieved)
+        sys.stdout.write(str(list_image_retrieved))
         sys.stdout.flush()
         sys.exit(0)
     except getopt.error as err:
